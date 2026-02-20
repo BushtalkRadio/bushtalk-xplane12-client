@@ -1,6 +1,6 @@
 [Details]
-Icon = "icon.png"
-Name = "Bushtalk Radio"
-ID = "com.bushtalkradio.xplane"
-Version = "1.0.0"
-Build = 1
+  Icon = "icon.png"
+  Name = "Bushtalk Radio"
+  ID = "com.bushtalkradio.xplane"
+  Version = "1.0.0"
+  Build = 2

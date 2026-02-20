@@ -25,7 +25,6 @@ type InfoRow struct {
 type StatusWindow struct {
 	window       fyne.Window
 	onDisconnect func()
-	onSignOut    func()
 
 	connectionDot *canvas.Circle
 	xplaneStatus  *widget.Label
@@ -36,7 +35,6 @@ type StatusWindow struct {
 	headingRow    *InfoRow
 	lastSentRow   *InfoRow
 	disconnectBtn *widget.Button
-	signOutBtn    *widget.Button
 
 	stopUpdate chan struct{}
 }
@@ -49,11 +47,10 @@ var (
 )
 
 // NewStatusWindow creates a new status window
-func NewStatusWindow(app fyne.App, onDisconnect func(), onSignOut func()) *StatusWindow {
+func NewStatusWindow(app fyne.App, onDisconnect func()) *StatusWindow {
 	s := &StatusWindow{
 		window:       app.NewWindow("Bushtalk Radio"),
 		onDisconnect: onDisconnect,
-		onSignOut:    onSignOut,
 		stopUpdate:   make(chan struct{}),
 	}
 	s.buildUI()
@@ -120,14 +117,6 @@ func (s *StatusWindow) buildUI() {
 		}
 	})
 
-	s.signOutBtn = widget.NewButtonWithIcon("Sign Out", theme.LogoutIcon(), func() {
-		if s.onSignOut != nil {
-			s.onSignOut()
-		}
-	})
-
-	buttonRow := container.NewGridWithColumns(2, s.disconnectBtn, s.signOutBtn)
-
 	// Info text with links
 	audioNote := widget.NewRichTextFromMarkdown(
 		"Log in at [bushtalkradio.com](https://bushtalkradio.com) to hear audio.")
@@ -143,7 +132,7 @@ func (s *StatusWindow) buildUI() {
 		audioNote,
 		discordNote,
 		layout.NewSpacer(),
-		buttonRow,
+		s.disconnectBtn,
 	)
 
 	padded := container.NewPadded(content)

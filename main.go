@@ -26,28 +26,27 @@ type App struct {
 	loginWindow    *ui.LoginWindow
 	statusWindow   *ui.StatusWindow
 	stopCh         chan struct{}
-	signingOut     bool
 }
 
 func main() {
+	// Load configuration first (before any UI)
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
+
+	// Hide console immediately, before Fyne app starts
+	if !cfg.ShowConsole {
+		HideConsole()
+	}
+
 	fyneApp := app.New()
 	fyneApp.SetIcon(AppIcon())
 	fyneApp.Settings().SetTheme(&BushtalkTheme{})
 
 	a := &App{
 		fyneApp: fyneApp,
-	}
-
-	// Load configuration
-	cfg, err := config.Load()
-	if err != nil {
-		log.Fatalf("Failed to load config: %v", err)
-	}
-	a.cfg = cfg
-
-	// Hide console unless debug mode is enabled
-	if !cfg.ShowConsole {
-		HideConsole()
+		cfg:     cfg,
 	}
 
 	// Initialize Bushtalk client
@@ -90,24 +89,8 @@ func (a *App) showStatusWindow() {
 			// Restart tracking (will reconnect to X-Plane)
 			a.startTracking()
 		},
-		// onSignOut - clear credentials and go to login
-		func() {
-			a.signingOut = true
-			a.stopTracking()
-			if a.xplaneClient != nil {
-				a.xplaneClient.Disconnect()
-			}
-			a.cfg.ClearCredentials()
-			a.cfg.Save()
-			a.statusWindow.Close()
-			a.showLoginWindow()
-			a.signingOut = false
-		},
 	)
 	a.statusWindow.Window().SetOnClosed(func() {
-		if a.signingOut {
-			return // Don't quit, we're just signing out
-		}
 		a.stopTracking()
 		if a.xplaneClient != nil {
 			a.xplaneClient.Disconnect()
