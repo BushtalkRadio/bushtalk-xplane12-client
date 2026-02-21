@@ -9,7 +9,7 @@ A lightweight flight tracker that connects X-Plane 12 to [Bushtalk Radio](https:
 
 ## Installation
 
-1. Download the appropriate binary for your platform from the releases page
+1. Download the appropriate binary for your platform from the [Releases](https://github.com/BushtalkRadio/bushtalk-xplane12-client/releases) page
 2. Place it anywhere on your computer
 3. Run the application
 
@@ -27,7 +27,13 @@ Once connected, your position will be sent to Bushtalk Radio every 5 seconds and
 
 ## Configuration
 
-The client stores settings in `config.json` in the same directory as the executable.
+Settings are stored in `config.json` at these locations:
+
+| Platform | Location |
+|----------|----------|
+| Windows | `%APPDATA%\BushtalkRadio\config.json` |
+| macOS | `~/Library/Application Support/BushtalkRadio/config.json` |
+| Linux | `~/.config/bushtalkradio/config.json` |
 
 ### Advanced Settings
 

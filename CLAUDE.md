@@ -153,6 +153,18 @@ cd ~\OneDrive\Desktop
 .\bushtalk-xplane.exe
 ```
 
+### Publishing to Public Repo
+
+This code lives in the monorepo but is published separately via git subtree:
+
+- **Remote**: `xplane-public` → https://github.com/BushtalkRadio/bushtalk-xplane12-client.git
+- **CLAUDE.md is excluded** via `.gitignore` (not published to public repo)
+
+```bash
+# Push clients/xplane to the public repo (run from monorepo root)
+git subtree push --prefix=clients/xplane xplane-public main
+```
+
 ## Unit Conversions
 
 - Altitude: meters → feet (* 3.28084)
