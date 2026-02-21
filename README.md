@@ -1,115 +1,32 @@
-# Bushtalk Radio X-Plane Client
+# Bushtalk Radio for X-Plane 12
 
-A lightweight flight tracker that connects X-Plane 12 to [Bushtalk Radio](https://bushtalkradio.com), allowing you to share your flights with the aviation community.
+Connect X-Plane 12 to [Bushtalk Radio](https://bushtalkradio.com) for live flight tracking and access to 25k+ audio tours covering the whole world.
 
-## Requirements
+## Choose Your Client
 
-- **X-Plane 12.1.1 or later** (includes the Web API)
-- A Bushtalk Radio account
+| | Plugin | Companion |
+|---|--------|-----------|
+| **Runs** | Inside X-Plane | Alongside X-Plane |
+| **Requires** | [FlyWithLua NG](https://forums.x-plane.org/index.php?/files/file/82888-flywithlua-ng-next-generation-plus-edition-for-x-plane-12/) | Nothing (standalone .exe) |
+| **Install** | Drop `.lua` file into Scripts folder | Run the .exe |
+| **Auto-start** | Yes, loads with X-Plane | No, run manually |
+| **Antivirus issues** | None (plain text file) | May be flagged (unsigned exe) |
 
-## Installation
+### [Lua Client](./lua-client/)
 
-1. Download the appropriate binary for your platform from the [Releases](https://github.com/BushtalkRadio/bushtalk-xplane12-client/releases) page
-2. Place it anywhere on your computer
-3. Run the application
+**Recommended for most users.** Runs inside X-Plane via FlyWithLua. Just drop a single `.lua` file into your Scripts folder and you're done.
 
-No additional setup is required - X-Plane's Web API runs automatically on port 8086.
+[Installation instructions →](./lua-client/README.md)
 
-## Usage
+### [Desktop Client](./desktop-client/)
 
-1. Start X-Plane 12
-2. Run the Bushtalk Radio client
-3. Enter your Bushtalk Radio username and password
-4. Check "Remember me" to save your credentials
-5. Click Login
+Standalone desktop app that runs alongside X-Plane. Useful if you don't want to install FlyWithLua, or prefer a separate window.
 
-Once connected, your position will be sent to Bushtalk Radio every 5 seconds and appear on the live map.
+[Installation instructions →](./desktop-client/README.md)
 
-## Configuration
+## Support
 
-Settings are stored in `config.json` at these locations:
-
-| Platform | Location |
-|----------|----------|
-| Windows | `%APPDATA%\BushtalkRadio\config.json` |
-| macOS | `~/Library/Application Support/BushtalkRadio/config.json` |
-| Linux | `~/.config/bushtalkradio/config.json` |
-
-### Advanced Settings
-
-Click "Advanced Settings" in the login window to configure:
-
-- **X-Plane Port**: Default is 8086. Change if you've configured X-Plane to use a different port, or if another application is using 8086.
-- **API URL**: For development/testing purposes only.
-
-## Troubleshooting
-
-### "X-Plane: Disconnected"
-
-- Ensure X-Plane 12 is running
-- Check that X-Plane's Web API is enabled (it is by default)
-- Try restarting X-Plane
-
-### Port Conflicts
-
-Port 8086 is occasionally used by other software (InfluxDB, RGB controllers, etc.). If you have conflicts:
-
-1. In X-Plane, go to Settings → Data Output → Web Interface
-2. Change the port number
-3. Update the X-Plane Port in the client's Advanced Settings
-
-### Firewall Issues
-
-If you're having connection issues:
-
-- Ensure your firewall allows localhost connections
-- The client only connects to `localhost` - no incoming connections are required
-
-## Building from Source
-
-Requires Go 1.21+ and Fyne dependencies.
-
-```bash
-# Install dependencies
-go mod download
-
-# Build for current platform
-go build -o bushtalk-xplane .
-
-# Cross-compile all platforms
-./build/build.sh
-```
-
-### Fyne Dependencies
-
-Fyne requires native graphics libraries. See [Fyne Getting Started](https://developer.fyne.io/started/) for platform-specific requirements.
-
-**Linux:**
-```bash
-sudo apt-get install gcc libgl1-mesa-dev xorg-dev
-```
-
-**macOS:**
-```bash
-xcode-select --install
-```
-
-**Windows:**
-- Install MinGW-w64 or use MSYS2
-
-## How It Works
-
-1. The client connects to X-Plane's local Web API (HTTP + WebSocket on port 8086)
-2. It subscribes to flight data: position, altitude, heading, groundspeed, tail number
-3. Every 5 seconds, it sends your current position to Bushtalk Radio
-4. Your flight appears on the live map at bushtalkradio.com
-
-## Privacy
-
-- The client only sends: latitude, longitude, altitude, heading, speed, and aircraft tail number
-- No other X-Plane data is transmitted
-- Your Bushtalk Radio credentials are stored locally if you select "Remember me"
-
-## License
-
-MIT License - See LICENSE file for details.
+- Website: https://bushtalkradio.com
+- Live Map: https://bushtalkradio.com/map
+- Discord: https://discord.com/invite/ZcGgw9mUqA
+- Email: admin@bushtalkradio.com
